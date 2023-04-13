@@ -21,6 +21,7 @@ describe('AutocompleteController', () => {
     expect(controller).toBeDefined();
   });
 
+  // My tests
   describe('findAll', () => {
     it('should return a list of countries when given a valid name', () => {
       const result = [{ name: 'Brazil', code: 'BR' }];
