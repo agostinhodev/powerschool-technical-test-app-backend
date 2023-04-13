@@ -6,7 +6,7 @@ export class AutocompleteController {
   constructor(private readonly autocompleteService: AutocompleteService) {}
 
   @Get()
-  findAll(@Query('query') query?: string) {
-    return this.autocompleteService.findAll(query);
+  findAll(@Query('name') name?: string) {
+    return this.autocompleteService.findAll(name);
   }
 }
