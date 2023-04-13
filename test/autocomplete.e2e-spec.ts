@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
@@ -12,6 +12,8 @@ describe('AutoComplete (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
+
     await app.init();
   });
 
@@ -97,18 +99,23 @@ describe('AutoComplete (e2e)', () => {
       .expect(400)
       .expect({
         statusCode: 400,
-        message:
+        message: [
           'The country name provided is too long. Please enter a name with fewer than 44 characters.',
+        ],
+        error: 'Bad Request',
       });
   });
 
-  /*
   it('should return an empty array if the search string contains invalid characters', () => {
     return request(app.getHttpServer())
       .get('/autocomplete?name=*')
-      .expect(200)
-      .expect([]);
+      .expect(400)
+      .expect({
+        statusCode: 400,
+        message: [
+          'The country name provided contains special characters. Please enter a name with only alphanumeric characters.',
+        ],
+        error: 'Bad Request',
+      });
   });
-
-  ;*/
 });
